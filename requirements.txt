@@ -54,3 +54,4 @@ ujson==5.8.0
 urllib3==2.1.0
 Werkzeug==3.0.1
 wrapt==1.14.1
+python-vlc=3.0.20123
