@@ -1,0 +1,5 @@
+host: 127.0.0.1
+port: 19530
+database_name: video_feature_store
+collection_name: video_embeddings
+embeddings_dim: 512

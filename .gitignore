@@ -1,0 +1,6 @@
+data/*
+bin/*
+lib/*
+pyvenv.cfg
+volumes
+src/frame_extraction/__pycache__
