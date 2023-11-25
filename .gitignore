@@ -4,3 +4,4 @@ lib/*
 pyvenv.cfg
 volumes
 src/frame_extraction/__pycache__
+share

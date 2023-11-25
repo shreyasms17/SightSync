@@ -1,14 +1,8 @@
 input:
   input_video_path: data/Videos
-  frame_extraction_dir: data/scene_changing_frames
-  scene_changing_threshold:
-    default: 0.2
-    video1: 0.05
-    video6: 0.1
-    video9: 0.1
-    video10: 0.05
+  frame_extraction_dir: data/extracted_input_frames
 query:
   input_video_path: data/Queries
-  frame_extraction_dir: data/scene_changing_query_frames
-  scene_changing_threshold:
-    default: 0.01
+  frame_extraction_dir: data/extracted_query_frames
+towhee_params:
+  model: resnet50
