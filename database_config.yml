@@ -11,9 +11,9 @@ visual_collection:
       nlist: 1024
 audio_collection:
   name: audio_embeddings
-  embeddings_dim: 2048
+  embeddings_dim: 1280
   index:
     index_type: IVF_FLAT
-    metric_type: L2
+    metric_type: IP
     params:
       nlist: 1024

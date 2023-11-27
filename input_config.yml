@@ -1,8 +1,11 @@
 input:
-  input_video_path: data/Videos
+  input_video_path: data/Videos/*.mp4
   frame_extraction_dir: data/extracted_input_frames
+  input_audio_path: data/Audios/*.wav
 query:
-  input_video_path: data/Queries
+  input_video_path: data/Queries/*.mp4
   frame_extraction_dir: data/extracted_query_frames
 towhee_params:
   model: resnet50
+audio_params:
+  window_size: 10
