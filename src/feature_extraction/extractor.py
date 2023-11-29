@@ -74,7 +74,6 @@ class Extractor:
     
     def audio_feature_generator(self):
         for audio_file in glob(self.input_config[self.type]["input_audio_path"]):
-            print(f"Generating features for {audio_file}")
             frame_rate, signal = wavfile.read(audio_file)
             video_id = audio_file.split('.')[0]
             audio_embedded_second = []
