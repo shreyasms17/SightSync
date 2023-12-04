@@ -1,0 +1,9 @@
+data/*
+bin/*
+lib/*
+pyvenv.cfg
+volumes
+src/feature_extraction/__pycache__
+share
+.DS_Store
+ffmpeg/*

@@ -1,0 +1,14 @@
+visual:
+  metric_type: L2
+  limit: 10
+  output_fields:
+    - video_id
+    - frame_id
+  anns_field: visual_embedding
+audio:
+  metric_type: IP
+  limit: 10
+  output_fields:
+    - video_id
+    - time
+  anns_field: audio_embedding
