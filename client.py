@@ -9,7 +9,7 @@ context = zmq.Context()
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://localhost:5555")
 
-sys.argv = ["", "data/Queries/Videos/video1_1.mp4", "data/Queries/Audios/video1_1.wav"]
+# sys.argv = ["", "data/Queries/Videos/video1_1.mp4", "data/Queries/Audios/video1_1.wav"]
 if len(sys.argv) == 1:
     socket.send(pickle.dumps("quit"))
     sys.exit(0)
@@ -29,10 +29,11 @@ input_data = dict(
 socket.send(pickle.dumps(input_data))
 #%%
 result = pickle.loads(socket.recv())
+print(result)
 #%%
-video_name = f"{os.path.basename(result['audio_result'][0][2][0][2])}.mp4"
+video_name = f"{os.path.basename(result['audio_result'][0][0][2])}.mp4"
 video_path = os.path.join("data\Videos", video_name)
-time = result['audio_result'][0][2][0][3]
+time = result['audio_result'][0][0][3]
 #%%
 import sys
 sys.path.append("src")

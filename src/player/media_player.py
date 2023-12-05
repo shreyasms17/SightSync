@@ -77,10 +77,10 @@ class MediaPlayerApp(tk.Tk):
             command=self.rewind,
         )
         self.rewind_button.pack(side=tk.LEFT, pady=5)
-        self.progress_bar = VideoProgressBar(
-            self, self.set_video_position, bg="#e0e0e0", highlightthickness=0
-        )
-        self.progress_bar.pack(fill=tk.X, padx=10, pady=5)
+        # self.progress_bar = VideoProgressBar(
+        #     self, self.set_video_position, bg="#e0e0e0", highlightthickness=0
+        # )
+        # self.progress_bar.pack(fill=tk.X, padx=10, pady=5)
 
     def get_duration_str(self):
         if self.playing_video:
@@ -132,12 +132,12 @@ class MediaPlayerApp(tk.Tk):
 
     def update_video_progress(self):
         if self.playing_video:
-            total_duration = self.media_player.get_length()
-            current_time = self.media_player.get_time()
+            total_duration = self.media_player.get_length() // 1000
+            current_time = self.media_player.get_time() // 1000
             progress_percentage = (current_time / total_duration) * 100
-            self.progress_bar.set(progress_percentage)
-            current_time_str = str(timedelta(milliseconds=current_time))[:-3]
-            total_duration_str = str(timedelta(milliseconds=total_duration))[:-3]
+            # self.progress_bar.set(progress_percentage)
+            current_time_str = str(timedelta(seconds=current_time))#[:-3]
+            total_duration_str = str(timedelta(seconds=total_duration))#[:-3]
             self.time_label.config(text=f"{current_time_str} / {total_duration_str}")
         self.after(1000, self.update_video_progress)
 
