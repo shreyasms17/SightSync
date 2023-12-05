@@ -10,6 +10,7 @@ from pymilvus import db, connections, Collection
 from towhee import ops, pipe, DataCollection
 from glob import glob
 from utils.time_utils import time_it
+from feature_extraction.extractor import Extractor
 
 from multiprocessing import Process, Queue
 
@@ -98,12 +99,26 @@ def search_query_video(query_video_path, video_collection):
 
     return DataCollection(search_video(f"{input_config['query']['frame_extraction_dir']}/*/*.jpg"))
 
+@time_it
 def search_query_audio(query_audio_path, audio_collection):
-    pass
+    global input_config
+    global database_config
+    global search_config
+
+    input_config["query"]["input_audio_path"] = os.path.abspath(query_audio_path)
+    extractor_obj = Extractor(input_config, database_config, "query")
+    
+    results = []
+    for video_id, time, audio_embedding in extractor_obj.audio_feature_generator():
+        result = collection_search(audio_embedding, audio_collection, **search_config["audio"])
+        results.append((video_id, time, result))    
+    return results
 
 def get_final_result(video_result, audio_result):
-    print(video_result, type(video_result))
-    return video_result.to_list()
+    return {
+        "video_result": video_result.to_list(),
+        "audio_result": audio_result
+    }
 
 @time_it
 def search(input, video_collection, audio_collection):
