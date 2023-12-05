@@ -1,7 +1,7 @@
 import subprocess
 import os
 import numpy as np
-from .vector_db_model import CollectionCreator
+from feature_extraction.vector_db_model import CollectionCreator
 from towhee import ops
 import scipy.io.wavfile as wavfile
 from towhee.types.audio_frame import AudioFrame
@@ -40,7 +40,7 @@ class Extractor:
             subprocess.run(extracted_frames_mkdir)
 
             ffmpeg_command = [
-                'ffmpeg/bin/ffmpeg.exe',
+                'ffmpeg',
                 '-i', video_path,
                 "-vf", "fps=1",
                 os.path.join(self.extracted_frames_dir, video.split('.')[0], 'frame-%10d.jpg')
