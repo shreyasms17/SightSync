@@ -16,7 +16,7 @@ class Search:
         self.search_config = search_config
         self.extractor_obj = Extractor(input_config, database_config, "query")
 
-        self.ext_object.extract_visual_frames()
+        self.extractor_obj.extract_visual_frames()
         self.use_database_context()
         
 
@@ -38,8 +38,8 @@ class Search:
                 .map('img', 'visual_embedding', ops.image_embedding.timm(model_name="resnet50", device=None))
         )
         p_search_pre = (
-            p_embed.map('visual_embedding', 'search_res', ops.ann_search.milvus_client(host=self.database_config["config"], port=self.database_config["port"], 
-            anns_field = self.search_config["visual_embedding"], collection_name=self.database_config["visual_collection"]["name"], limit=self.search_config["visual"]["limit"], 
+            p_embed.map('visual_embedding', 'search_res', ops.ann_search.milvus_client(host=self.database_config["host"], port=self.database_config["port"], 
+            anns_field = self.search_config["visual"]["anns_field"], collection_name=self.database_config["visual_collection"]["name"], limit=self.search_config["visual"]["limit"], 
             **{'output_fields': self.search_config["visual"]["output_fields"], 'db_name': self.database_config["database_name"]}))
         )
         p_search = p_search_pre.output('img_path', 'search_res')
@@ -51,10 +51,12 @@ class Search:
         collection = Collection(self.database_config["audio_collection"]["name"])
         collection.load()
 
-        audio_search_operator = ops.ann_search.milvus_client(host=self.database_config["config"], port=self.database_config["port"], 
-            anns_field = self.search_config["audio_embedding"], collection_name=self.database_config["audio_collection"]["name"], limit=self.search_config["audio"]["limit"], 
+        audio_search_operator = ops.ann_search.milvus_client(host=self.database_config["host"], port=self.database_config["port"], 
+            anns_field = self.search_config["audio"]["anns_field"], collection_name=self.database_config["audio_collection"]["name"], limit=self.search_config["audio"]["limit"], 
             **{'output_fields': self.search_config["audio"]["output_fields"], 'db_name': self.database_config["database_name"]})
         
         results = {}
         for video_id, time, audio_embedding in self.extractor_obj.audio_feature_generator():
             results[(video_id, time)] = audio_search_operator(audio_embedding)
+        
+        return results

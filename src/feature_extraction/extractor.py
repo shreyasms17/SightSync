@@ -1,7 +1,7 @@
 import subprocess
 import os
 import numpy as np
-from vector_db_model import CollectionCreator
+from .vector_db_model import CollectionCreator
 from towhee import ops
 import scipy.io.wavfile as wavfile
 from towhee.types.audio_frame import AudioFrame
@@ -19,6 +19,10 @@ class Extractor:
         self.audio_embedding_model = ops.audio_embedding.nnfp()
         self.audio_window_size = self.input_config["audio_params"]["window_size"]
 
+    def get_file(self, directory):
+        for item in glob(directory):
+            yield item
+
     def extract_visual_frames(self):
         extracted_frames_rmdir = [
             "rm", "-rf", self.extracted_frames_dir
@@ -26,8 +30,8 @@ class Extractor:
 
         subprocess.run(extracted_frames_rmdir)
 
-        for video_path in self.utils.get_files(self.input_video_path):
-            video = video_path.split('/')[-1]
+        for video_path in self.get_file(self.input_video_path):
+            video = os.path.basename(video_path)
 
             extracted_frames_mkdir = [
                 "mkdir", "-p", os.path.join(self.extracted_frames_dir, video.split('.')[0])
@@ -36,7 +40,7 @@ class Extractor:
             subprocess.run(extracted_frames_mkdir)
 
             ffmpeg_command = [
-                'ffmpeg',
+                'ffmpeg/bin/ffmpeg.exe',
                 '-i', video_path,
                 "-vf", "fps=1",
                 os.path.join(self.extracted_frames_dir, video.split('.')[0], 'frame-%10d.jpg')
