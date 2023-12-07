@@ -1,0 +1,19 @@
+host: 127.0.0.1
+port: 19530
+database_name: video_feature_store
+visual_collection:
+  name: video_embeddings
+  embeddings_dim: 2048
+  index:
+    index_type: IVF_FLAT
+    metric_type: L2
+    params:
+      nlist: 1024
+audio_collection:
+  name: audio_embeddings
+  embeddings_dim: 1280
+  index:
+    index_type: IVF_FLAT
+    metric_type: IP
+    params:
+      nlist: 1024
