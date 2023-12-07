@@ -40,8 +40,7 @@ class Selector:
 
         # video_df = self.createVideoDataframe(video_result)
         audio_df = self.createAudioDataFrame(audio_result)
-        print(audio_df)
-
+        # print(audio_df)
         return {
             "media_id": audio_df.iloc[0]['media_id'],
             "time": audio_df.iloc[0]['start'] - 1,

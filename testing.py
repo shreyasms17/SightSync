@@ -3,6 +3,7 @@ import sys
 import uuid
 import pickle
 from random import randint
+import pandas as pd
 
 from os import listdir
 from os.path import isfile, join
@@ -11,7 +12,7 @@ onlyfiles = [(f.split('.')[0], f.split('.')[0].split('_')[0], f.split('.')[0].sp
 
 # vid_id = randint(0, 97)
 # print("TESTING ", onlyfiles[vid_id])
-
+results = []
 for vid_path, media_id, start_time in onlyfiles:
     query_video_path = "data/testing/query_video/" + vid_path + ".mp4"
     query_audio_path = "data/testing/query_audio/" + vid_path + ".wav"
@@ -29,5 +30,8 @@ for vid_path, media_id, start_time in onlyfiles:
 
     result = pickle.loads(socket.recv())
     socket.close()
-    print(vid_path, result)
+    result["input"] = vid_path
+    results.append(result)
+df = pd.DataFrame.from_dict(results)
+df.to_csv("AllTestResults.csv", index=False)
 

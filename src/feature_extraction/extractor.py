@@ -92,6 +92,9 @@ class Extractor:
             for segment in self.audio_signal_segmentor(frame_rate, signal):
                 audio_embedding = self.audio_embedding_model([AudioFrame(segment, frame_rate, None, 'mono')])
                 audio_embedded_second.append(audio_embedding)
+                if len(audio_embedded_second) > 12:
+                    # print("Exiting")
+                    break
             audio_embedded_second = np.array(audio_embedded_second)
             for i in range(len(audio_embedded_second) - self.audio_window_size):
                 yield (video_id, i+1, audio_embedded_second[i: i + self.audio_window_size, :].reshape(-1))
