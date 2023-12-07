@@ -9,6 +9,6 @@ type = "input" if ((len(sys.argv)==2 and sys.argv[1]=="input") or len(sys.argv)=
 
 ext_object = Extractor(input_config, database_config, type)
 if type == "input":
-    ext_object.extract_visual_frames()
-    ext_object.extract_and_index_visual_features()
+    # ext_object.extract_visual_frames()
+    # ext_object.extract_and_index_visual_features()
     ext_object.extract_and_index_audio_features()

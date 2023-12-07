@@ -146,6 +146,7 @@ def search_query_audio(query_audio_path, audio_collection):
         end = time.time()
         total_search_time += end - start
         results.append((video_id, time_id, result))
+        return results, total_search_time
     return results, total_search_time
 
 
@@ -161,20 +162,21 @@ def search(input, video_collection, audio_collection):
     query_video_path = input["query_video_path"]
     query_audio_path = input["query_audio_path"]
 
-    video_result, video_search_time = search_query_video(query_video_path, video_collection)
+    # video_result, video_search_time = search_query_video(query_video_path, video_collection)
     audio_result, audio_search_time = search_query_audio(query_audio_path, audio_collection)
     start = time.time()
-    result = get_final_result(video_result=video_result, audio_result=audio_result)
+    # result = get_final_result(video_result=video_result, audio_result=audio_result)
+    result = get_final_result(video_result=None, audio_result=audio_result)
     end = time.time()
     total_vote_time = end - start
     total_time = time.time() - start_search
     result.update(
         {
             "total_time": total_time,
-            "video_search_time": video_search_time,
+            "video_search_time": 0,
             "audio_search_time": audio_search_time,
             "vote_time": total_vote_time,
-            "preprocess_time": total_time - video_search_time - audio_search_time - total_vote_time
+            "preprocess_time": total_time - 0 - audio_search_time - total_vote_time
         }
     )
     return result

@@ -40,7 +40,7 @@ class Extractor:
             subprocess.run(extracted_frames_mkdir)
 
             ffmpeg_command = [
-                'ffmpeg/bin/ffmpeg.exe',
+                'ffmpeg',
                 '-i', video_path,
                 "-vf", "fps=1",
                 os.path.join(self.extracted_frames_dir, video.split('.')[0], 'frame-%10d.jpg')
@@ -92,6 +92,9 @@ class Extractor:
             for segment in self.audio_signal_segmentor(frame_rate, signal):
                 audio_embedding = self.audio_embedding_model([AudioFrame(segment, frame_rate, None, 'mono')])
                 audio_embedded_second.append(audio_embedding)
+                if len(audio_embedded_second) > 10:
+                    # print("Exiting")
+                    break
             audio_embedded_second = np.array(audio_embedded_second)
             for i in range(len(audio_embedded_second) - self.audio_window_size):
                 yield (video_id, i+1, audio_embedded_second[i: i + self.audio_window_size, :].reshape(-1))

@@ -4,12 +4,15 @@ import zmq
 import sys
 import uuid
 import pickle
+import yaml
 #%%
 context = zmq.Context()
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://localhost:5555")
+video_metadata = yaml.safe_load(open("config/video_metadata.yml"))
 
-# sys.argv = ["", "data/Queries/Videos/video1_1.mp4", "data/Queries/Audios/video1_1.wav"]
+
+sys.argv = ["", "data/Queries/Videos/video4_1.mp4", "data/Queries/Audios/video4_1.wav"]
 if len(sys.argv) == 1:
     print("Quit")
     socket.send(pickle.dumps("quit"))
@@ -39,8 +42,11 @@ print(result)
 import sys
 sys.path.append("src")
 from player.media_player import play_video_from
+from player.media_player_mac import play_video_from
+
 #%%
 video_path = os.path.join("data", "Videos", result['media_id'] + ".mp4")
 position = result["media_player_time"]
-play_video_from(video_path, position)
+# play_video_from(video_path, position)
+play_video_from(video_path, str(result['time']) + '.0', video_metadata[result['media_id']]['total_length'])
 #%%
