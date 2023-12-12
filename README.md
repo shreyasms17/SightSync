@@ -1,27 +1,53 @@
-# Overview
+# SightSync: Shazam for Video
 
-SightSync is a project designed to provide a Shazam-like experience for video content. The system takes a database of videos, extracts frames and audio features, and stores them in Milvus vector database collections. It then allows users to search for a specific video or audio clip, finding the closest matches in both the visual and audio databases.
+SightSync is a project that implements a Shazam-like functionality for video and audio clips.  The system takes a database of videos, extracts frames and audio features, and stores them in Milvus vector database collections.  It then allows users to search for a specific video or audio clip, finding the closest matches in both the visual and audio databases.
 
-This project was part of the CSCI 576 - Multimedia Systems Design at the University of Southern California.
+## Features
 
-# Features
+1. **Video Processing:**
+   - Reads videos from a specified folder.
+   - Extracts frames at every second from the videos.
+   - Utilizes a ResNet-50 model to obtain frame feature embeddings.
+   - Stores feature vectors in a Milvus vector database collection with columns: `video_id`, `frame_id`, and `visual_embedding`.
 
-- **Video Processing**: Reads videos from a specified folder and extracts frames at every second.
+2. **Audio Processing:**
+   - Extracts audio features from a sliding window of 10 seconds for each video.
+   - Stores audio feature vectors in a Milvus vector database collection with columns: `video_id`, `time` (starting in seconds), and `audio_embedding`.
 
-- **Visual Feature Extraction**: Utilizes a ResNet-50 model to extract frame feature embeddings, creating a feature vector.
+3. **Search and Playback:**
+   - Given a video and audio clip, the framework performs a search on the visual and audio database.
+   - Finds the closest vectors in both visual and audio collections.
+   - Determines the starting second of the matching clip.
+   - The server, which contains the loaded collections, performs the search.
+   - The client submits a request to the server with the clip file names.
+   - A media player plays the clip alongside the original video from the database, starting from the identified second.
 
-- **Audio Feature Extraction**: Extracts audio features from a sliding window of 10 seconds in the audio clips, storing them in the Milvus vector database.
 
-- **Milvus Vector Database Integration**: Stores visual and audio feature vectors in Milvus vector database collections with columns for `video_id`, `frame_id`, `visual_embedding` (for visual data), and `video_id`, `time`, `audio_embedding` (for audio data).
-
-- **Search and Matching**: Given a video and audio clip, performs a search on both visual and audio databases, finding the closest vectors in each collection.
-
-- **Playback Integration**: Initiates a media player to play the original video from the specified starting second in the database.
-
-# Requirements
+## Requirements
 
 - Docker
 - Milvus Databasea
 - ffmpeg tool
 - Python 3.10
 - Dependencies listed in `requirements.txt`
+
+
+## Usage
+
+To use SightSync, follow these steps:
+
+1. **Setup:**
+   - Ensure the required dependencies are installed.
+   - Set up the Milvus vector database.
+
+2. **Database Population:**
+   - Add videos and audios to the specified folders in the input_config.yml under config/ folder.
+   - Run the src/feature_extraction/main.py file to extract and store visual and audio features as follows:
+     ```python3 src/feature_extraction/main.py input```
+
+3. **Search and Playback:**
+   - Start the server to load the collections.
+     ```python3 src/search_engine/search.py```
+   - Submit a request from the client with the clip file names.
+     ```python3 client.py <video file path> <audio file path>```
+   - The server performs the search, identifies the starting second, and initiates playback.
