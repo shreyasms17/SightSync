@@ -11,7 +11,7 @@ SightSync is a project that implements a Shazam-like functionality for video and
    - Stores feature vectors in a Milvus vector database collection with columns: `video_id`, `frame_id`, and `visual_embedding`.
 
 2. **Audio Processing:**
-   - Extracts audio features from a sliding window of 10 seconds for each video.
+   - Extracts audio features from a sliding window of 10 seconds for each video using Neural Audio Fingerprint.
    - Stores audio feature vectors in a Milvus vector database collection with columns: `video_id`, `time` (starting in seconds), and `audio_embedding`.
 
 3. **Search and Playback:**
