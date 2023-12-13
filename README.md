@@ -50,4 +50,4 @@ To use SightSync, follow these steps:
      ```python3 src/search_engine/search.py```
    - Submit a request from the client with the clip file names.
      ```python3 client.py <video file path> <audio file path>```
-   - The server performs the search, identifies the starting second, and initiates playback.
+   - The server performs the search, identifies the starting second, and client initiates playback.
