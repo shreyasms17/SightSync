@@ -26,7 +26,7 @@ SightSync is a project that implements a Shazam-like functionality for video and
 ## Requirements
 
 - Docker
-- Milvus Databasea
+- Milvus Database
 - ffmpeg tool
 - Python 3.10
 - Dependencies listed in `requirements.txt`
